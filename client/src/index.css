@@ -4,40 +4,66 @@
 @tailwind components;
 @tailwind utilities;
 
-*{
-  font-family: Outfit;
+* {
+  font-family: 'Outfit', sans-serif;
 }
 
 @layer base {
+  body {
+    @apply bg-slate-50/40 text-slate-800 antialiased selection:bg-indigo-500 selection:text-white;
+  }
   html {
     scroll-behavior: smooth;
   }
 }
 
-::-webkit-scrollbar{
-  display: none;
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full hover:bg-slate-400 transition-colors;
 }
 
-.rich-text { font-size: 15px; color: #7A7B7D; }
+/* Glassmorphism Utilities */
+.glass-panel {
+  @apply bg-white/80 backdrop-blur-md border border-white/60 shadow-sm;
+}
+.glass-card {
+  @apply bg-white/90 backdrop-blur-lg border border-white/70 shadow-md hover:shadow-xl transition-all duration-300;
+}
 
+/* Animated Gradient glow */
+.gradient-glow {
+  position: relative;
+}
+.gradient-glow::before {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #3b82f6);
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0.15;
+  filter: blur(8px);
+  transition: opacity 0.3s ease;
+}
+.gradient-glow:hover::before {
+  opacity: 0.35;
+}
+
+/* Rich Text Editor Overrides */
+.rich-text { font-size: 15px; color: #4b5563; line-height: 1.625; }
 .rich-text p { margin-bottom: 16px; }
-
-.rich-text h1 { font-size: 36px; font-weight: 800; color: #252525; margin: 32px 0; }
-
-.rich-text h2 { font-size: 22px; font-weight: 700; color: #252525; margin: 24px 0; }
-
-.rich-text h3 { font-size: 18px; font-weight: 600; color: #333333; margin: 20px 0; }
-
-.rich-text h4 { font-size: 16px; font-weight: 500; color: #444444; margin: 16px 0; }
-
-.rich-text h5 { font-size: 14px; font-weight: 400; color: #555555; margin: 12px 0; }
-
-.rich-text h6 { font-size: 12px; font-weight: 400; color: #666666; margin: 8px 0; }
-
-.rich-text strong { font-weight: 700; }
-
-.rich-text ol { margin-left: 30px; list-style-type: decimal; }
-
-.rich-text ul { margin-left: 30px; list-style-type: disc; }
-
-.rich-text li { margin-bottom: 8px; }
+.rich-text h1 { font-size: 32px; font-weight: 800; color: #1f2937; margin: 24px 0 16px 0; }
+.rich-text h2 { font-size: 22px; font-weight: 700; color: #1f2937; margin: 20px 0 12px 0; }
+.rich-text h3 { font-size: 18px; font-weight: 600; color: #374151; margin: 16px 0 8px 0; }
+.rich-text h4 { font-size: 16px; font-weight: 500; color: #4b5563; margin: 12px 0 8px 0; }
+.rich-text strong { font-weight: 700; color: #111827; }
+.rich-text ol { margin-left: 24px; list-style-type: decimal; }
+.rich-text ul { margin-left: 24px; list-style-type: disc; }
+.rich-text li { margin-bottom: 6px; }

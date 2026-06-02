@@ -57,29 +57,45 @@ const AddJob = () => {
     }, [])
 
     return (
-        <form onSubmit={onSubmitHandler} className='container p-4 flex flex-col w-full items-start gap-3'>
+        <form onSubmit={onSubmitHandler} className='bg-white border border-slate-100 rounded-3xl p-6 sm:p-8 shadow-sm flex flex-col gap-6 w-full max-w-3xl transition-all duration-300 hover:shadow-indigo-500/5'>
+            <div>
+                <h2 className='text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight'>Post a New Job</h2>
+                <p className='text-slate-400 text-sm mt-1'>Fill in the details to announce a new career opportunity.</p>
+            </div>
 
             <div className='w-full'>
-                <p className='mb-2'>Job Title</p>
-                <input type="text" placeholder='Type here'
-                    onChange={e => setTitle(e.target.value)} value={title}
+                <label className='block font-bold text-slate-700 text-xs tracking-wider uppercase mb-2'>
+                    Job Title
+                </label>
+                <input 
+                    type="text" 
+                    placeholder='e.g. Senior Full Stack Engineer'
+                    onChange={e => setTitle(e.target.value)} 
+                    value={title}
                     required
-                    className='w-full max-w-lg px-3 py-2 border-2 border-gray-300 rounded'
+                    className='w-full px-4 py-3 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none text-slate-800 transition-all font-medium text-sm sm:text-base placeholder-slate-400'
                 />
             </div>
 
-            <div className='w-full max-w-lg'>
-                <p className='my-2'>Job Description</p>
-                <div ref={editorRef}>
-
+            <div className='w-full'>
+                <label className='block font-bold text-slate-700 text-xs tracking-wider uppercase mb-2'>
+                    Job Description
+                </label>
+                <div className='border border-slate-200 rounded-xl overflow-hidden shadow-sm bg-white min-h-[220px]'>
+                    <div ref={editorRef} className='!border-0 text-slate-700'></div>
                 </div>
             </div>
 
-            <div className='flex flex-col sm:flex-row gap-2 w-full sm:gap-8'>
-
+            <div className='grid grid-cols-1 sm:grid-cols-3 gap-6 w-full'>
                 <div>
-                    <p className='mb-2'>Job Category</p>
-                    <select className='w-full px-3 py-2 border-2 border-gray-300 rounded' onChange={e => setCategory(e.target.value)}>
+                    <label className='block font-bold text-slate-700 text-xs tracking-wider uppercase mb-2'>
+                        Job Category
+                    </label>
+                    <select 
+                        className='w-full px-4 py-3 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none text-slate-700 transition-all bg-white font-semibold text-sm cursor-pointer' 
+                        onChange={e => setCategory(e.target.value)}
+                        value={category}
+                    >
                         {JobCategories.map((category, index) => (
                             <option key={index} value={category}>{category}</option>
                         ))}
@@ -87,8 +103,14 @@ const AddJob = () => {
                 </div>
 
                 <div>
-                    <p className='mb-2'>Job Location</p>
-                    <select className='w-full px-3 py-2 border-2 border-gray-300 rounded' onChange={e => setLocation(e.target.value)}>
+                    <label className='block font-bold text-slate-700 text-xs tracking-wider uppercase mb-2'>
+                        Job Location
+                    </label>
+                    <select 
+                        className='w-full px-4 py-3 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none text-slate-700 transition-all bg-white font-semibold text-sm cursor-pointer' 
+                        onChange={e => setLocation(e.target.value)}
+                        value={location}
+                    >
                         {JobLocations.map((location, index) => (
                             <option key={index} value={location}>{location}</option>
                         ))}
@@ -96,21 +118,42 @@ const AddJob = () => {
                 </div>
 
                 <div>
-                    <p className='mb-2'>Job Level</p>
-                    <select className='w-full px-3 py-2 border-2 border-gray-300 rounded' onChange={e => setLevel(e.target.value)}>
+                    <label className='block font-bold text-slate-700 text-xs tracking-wider uppercase mb-2'>
+                        Job Level
+                    </label>
+                    <select 
+                        className='w-full px-4 py-3 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none text-slate-700 transition-all bg-white font-semibold text-sm cursor-pointer' 
+                        onChange={e => setLevel(e.target.value)}
+                        value={level}
+                    >
                         <option value="Beginner level">Beginner level</option>
                         <option value="Intermediate level">Intermediate level</option>
                         <option value="Senior level">Senior level</option>
                     </select>
                 </div>
-
             </div>
+
             <div>
-                <p className='mb-2'>Job Salary</p>
-                <input min={0} className='w-full px-3 py-2 border-2 border-gray-300 rounded sm:w-[120px]' onChange={e => setSalary(e.target.value)} type="Number" placeholder='2500' />
+                <label className='block font-bold text-slate-700 text-xs tracking-wider uppercase mb-2'>
+                    Job Salary (Annual CTC in USD)
+                </label>
+                <input 
+                    min={0} 
+                    className='w-full sm:w-[220px] px-4 py-3 border border-slate-200 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 rounded-xl outline-none text-slate-800 transition-all font-semibold text-sm placeholder-slate-450' 
+                    onChange={e => setSalary(e.target.value)} 
+                    value={salary}
+                    type="Number" 
+                    placeholder='e.g. 95000' 
+                    required
+                />
             </div>
 
-            <button className='w-28 py-3 mt-4 bg-black text-white rounded'>ADD</button>
+            <button 
+                type="submit"
+                className='bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold py-3 px-8 rounded-xl shadow-md shadow-indigo-600/10 hover:shadow hover:scale-[1.02] active:scale-98 transition-all w-36 uppercase tracking-wider text-xs mt-2'
+            >
+                Post Job
+            </button>
         </form>
     )
 }

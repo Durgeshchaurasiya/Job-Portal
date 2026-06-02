@@ -65,41 +65,70 @@ const ManageJobs = () => {
   }, [companyToken])
 
   return jobs ? jobs.length === 0 ? (
-    <div className='flex items-center justify-center h-[70vh]'>
-      <p className='text-xl sm:text-2xl'>No Jobs Available or posted</p>
+    <div className='flex flex-col items-center justify-center h-[50vh] bg-white border border-slate-100 rounded-3xl p-8 text-center shadow-sm'>
+      <p className='text-slate-400 font-bold text-lg'>No jobs posted yet.</p>
+      <p className='text-slate-400 text-sm mt-1 mb-6'>Get started by listing your first opening!</p>
+      <button 
+        onClick={() => navigate('/dashboard/add-job')} 
+        className='bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all active:scale-98 text-xs uppercase tracking-wider'
+      >
+        Add new job
+      </button>
     </div>
   ) : (
-    <div className='container p-4 max-w-5xl'>
-      <div className='overflow-x-auto'>
-        <table className='min-w-full bg-white border border-gray-200 max-sm:text-sm'>
-          <thead>
-            <tr>
-              <th className='py-2 px-4 border-b text-left max-sm:hidden'>#</th>
-              <th className='py-2 px-4 border-b text-left'>Job Title</th>
-              <th className='py-2 px-4 border-b text-left max-sm:hidden'>Date</th>
-              <th className='py-2 px-4 border-b text-left max-sm:hidden'>Location</th>
-              <th className='py-2 px-4 border-b text-center'>Applicants</th>
-              <th className='py-2 px-4 border-b text-left'>Visible</th>
-            </tr>
-          </thead>
-          <tbody>
-            {jobs.map((job, index) => (
-              <tr key={index} className='text-gray-700'>
-                <td className='py-2 px-4 border-b max-sm:hidden'>{index + 1}</td>
-                <td className='py-2 px-4 border-b' >{job.title}</td>
-                <td className='py-2 px-4 border-b max-sm:hidden' >{moment(job.date).format('ll')}</td>
-                <td className='py-2 px-4 border-b max-sm:hidden' >{job.location}</td>
-                <td className='py-2 px-4 border-b text-center' >{job.applicants}</td>
-                <td className='py-2 px-4 border-b' >
-                  <input onChange={() => changeJobVisiblity(job._id)} className='scale-125 ml-4' type="checkbox" checked={job.visible} />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+    <div className='w-full max-w-5xl flex flex-col gap-6'>
+      <div>
+        <h2 className='text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight'>Manage Posted Jobs</h2>
+        <p className='text-slate-400 text-sm mt-1'>Monitor active listings, application counts, and control search visibility.</p>
       </div>
-      <div className='mt-4 flex justify-end'>
-        <button onClick={() => navigate('/dashboard/add-job')} className='bg-black text-white py-2 px-4 rounded'>Add new job</button>
+
+      <div className='bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden'>
+        <div className='overflow-x-auto'>
+          <table className='min-w-full divide-y divide-slate-100'>
+            <thead>
+              <tr className='bg-slate-50/60'>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100 max-sm:hidden'>#</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100'>Job Title</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100 max-sm:hidden'>Date Posted</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100 max-sm:hidden'>Location</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-center border-b border-slate-100'>Applicants</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-center border-b border-slate-100'>Visible</th>
+              </tr>
+            </thead>
+            <tbody className='divide-y divide-slate-100 bg-white'>
+              {jobs.map((job, index) => (
+                <tr key={index} className='hover:bg-slate-50/30 transition-colors duration-150'>
+                  <td className='py-4.5 px-6 text-slate-400 text-sm font-semibold border-b max-sm:hidden'>{index + 1}</td>
+                  <td className='py-4.5 px-6 text-slate-800 text-sm sm:text-base font-bold border-b'>{job.title}</td>
+                  <td className='py-4.5 px-6 text-slate-500 text-sm border-b max-sm:hidden'>{moment(job.date).format('ll')}</td>
+                  <td className='py-4.5 px-6 text-slate-500 text-sm border-b max-sm:hidden'>{job.location}</td>
+                  <td className='py-4.5 px-6 border-b text-center'>
+                    <span className='inline-block px-3 py-1 bg-indigo-50 text-indigo-650 border border-indigo-100/50 rounded-full text-xs font-extrabold'>
+                      {job.applicants}
+                    </span>
+                  </td>
+                  <td className='py-4.5 px-6 border-b text-center'>
+                    <input 
+                      onChange={() => changeJobVisiblity(job._id)} 
+                      className='h-4.5 w-4.5 rounded border-slate-350 text-indigo-600 focus:ring-indigo-500/30 accent-indigo-600 cursor-pointer transition-all' 
+                      type="checkbox" 
+                      checked={job.visible} 
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <div className='flex justify-end'>
+        <button 
+          onClick={() => navigate('/dashboard/add-job')} 
+          className='bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all active:scale-98 text-xs uppercase tracking-wider cursor-pointer'
+        >
+          Add new job
+        </button>
       </div>
     </div>
   ) : <Loading />

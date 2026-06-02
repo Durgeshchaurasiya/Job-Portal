@@ -59,57 +59,86 @@ const ViewApplications = () => {
   }, [companyToken])
 
   return applicants ? applicants.length === 0 ? (
-    <div className='flex items-center justify-center h-[70vh]'>
-      <p className='text-xl sm:text-2xl'>No Applications Available</p>
+    <div className='flex flex-col items-center justify-center h-[50vh] bg-white border border-slate-100 rounded-3xl p-8 text-center shadow-sm'>
+      <p className='text-slate-400 font-bold text-lg'>No applications received yet.</p>
+      <p className='text-slate-400 text-sm mt-1'>Check back later as candidates discover your listings!</p>
     </div>
   ) : (
-    <div className='container mx-auto p-4'>
+    <div className='w-full max-w-5xl flex flex-col gap-6'>
       <div>
-        <table className='w-full max-w-4xl bg-white border border-gray-200 max-sm:text-sm'>
-          <thead>
-            <tr className='border-b'>
-              <th className='py-2 px-4 text-left'>#</th>
-              <th className='py-2 px-4 text-left'>User name</th>
-              <th className='py-2 px-4 text-left max-sm:hidden'>Job Title</th>
-              <th className='py-2 px-4 text-left max-sm:hidden'>Location</th>
-              <th className='py-2 px-4 text-left'>Resume</th>
-              <th className='py-2 px-4 text-left'>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {applicants.filter(item => item.jobId && item.userId).map((applicant, index) => (
-              <tr key={index} className='text-gray-700'>
-                <td className='py-2 px-4 border-b text-center'>{index + 1}</td>
-                <td className='py-2 px-4 border-b text-center flex items-center'>
-                  <img className='w-10 h-10 rounded-full mr-3 max-sm:hidden' src={applicant.userId.image} alt="" />
-                  <span>{applicant.userId.name}</span>
-                </td>
-                <td className='py-2 px-4 border-b max-sm:hidden'>{applicant.jobId.title}</td>
-                <td className='py-2 px-4 border-b max-sm:hidden'>{applicant.jobId.location}</td>
-                <td className='py-2 px-4 border-b'>
-                  <a href={applicant.userId.resume} target='_blank'
-                    className='bg-blue-50 text-blue-400 px-3 py-1 rounded inline-flex gap-2 items-center'
-                  >
-                    Resume <img src={assets.resume_download_icon} alt="" />
-                  </a>
-                </td>
-                <td className='py-2 px-4 border-b relative'>
-                  {applicant.status === "Pending"
-                    ? <div className='relative inline-block text-left group'>
-                      <button className='text-gray-500 action-button'>...</button>
-                      <div className='z-10 hidden absolute right-0 md:left-0 top-0 mt-2 w-32 bg-white border border-gray-200 rounded shadow group-hover:block'>
-                        <button onClick={() => changeJobApplicationStatus(applicant._id, 'Accepted')} className='block w-full text-left px-4 py-2 text-blue-500 hover:bg-gray-100'>Accept</button>
-                        <button onClick={() => changeJobApplicationStatus(applicant._id, 'Rejected')} className='block w-full text-left px-4 py-2 text-red-500 hover:bg-gray-100'>Reject</button>
-                      </div>
-                    </div>
-                    : <div>{applicant.status}</div>
-                  }
+        <h2 className='text-xl sm:text-2xl font-extrabold text-slate-800 tracking-tight'>Manage Candidates</h2>
+        <p className='text-slate-400 text-sm mt-1'>Inspect applicant profiles, resumes, and approve or reject submissions.</p>
+      </div>
 
-                </td>
+      <div className='bg-white border border-slate-100 rounded-3xl shadow-sm overflow-hidden'>
+        <div className='overflow-x-auto'>
+          <table className='min-w-full divide-y divide-slate-100'>
+            <thead>
+              <tr className='bg-slate-50/60'>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100 max-sm:hidden'>#</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100'>Candidate Name</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100 max-sm:hidden'>Applied Job</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100 max-sm:hidden'>Location</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100'>Resume</th>
+                <th className='py-4 px-6 text-slate-500 text-xs font-bold uppercase tracking-wider text-left border-b border-slate-100'>Action</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className='divide-y divide-slate-100 bg-white'>
+              {applicants.filter(item => item.jobId && item.userId).map((applicant, index) => (
+                <tr key={index} className='hover:bg-slate-50/30 transition-colors duration-150'>
+                  <td className='py-4.5 px-6 text-slate-400 text-sm font-semibold border-b max-sm:hidden'>{index + 1}</td>
+                  
+                  <td className='py-4.5 px-6 border-b'>
+                    <div className='flex items-center gap-3'>
+                      <div className='h-9 w-9 p-0.5 bg-slate-50 border border-slate-200 rounded-full flex items-center justify-center overflow-hidden shrink-0 max-sm:hidden'>
+                        <img className='h-full w-full rounded-full object-cover' src={applicant.userId.image} alt={applicant.userId.name} />
+                      </div>
+                      <span className='font-bold text-slate-800 text-sm sm:text-base'>{applicant.userId.name}</span>
+                    </div>
+                  </td>
+
+                  <td className='py-4.5 px-6 text-slate-700 text-sm sm:text-base font-semibold border-b max-sm:hidden'>{applicant.jobId.title}</td>
+                  <td className='py-4.5 px-6 text-slate-500 text-sm border-b max-sm:hidden'>{applicant.jobId.location}</td>
+                  
+                  <td className='py-4.5 px-6 border-b'>
+                    <a 
+                      href={applicant.userId.resume} 
+                      target='_blank'
+                      rel="noreferrer"
+                      className='bg-indigo-50 hover:bg-indigo-100/80 text-indigo-650 px-3.5 py-1.5 rounded-full inline-flex gap-2 items-center text-xs font-extrabold transition-all shadow-sm'
+                    >
+                      Resume 
+                      <img className='h-3 w-3 opacity-80' src={assets.resume_download_icon} alt="" />
+                    </a>
+                  </td>
+
+                  <td className='py-4.5 px-6 border-b'>
+                    {applicant.status === "Pending" ? (
+                      <div className='flex items-center gap-2'>
+                        <button 
+                          onClick={() => changeJobApplicationStatus(applicant._id, 'Accepted')} 
+                          className='bg-emerald-50 hover:bg-emerald-600 hover:text-white text-emerald-600 border border-emerald-100/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer'
+                        >
+                          Accept
+                        </button>
+                        <button 
+                          onClick={() => changeJobApplicationStatus(applicant._id, 'Rejected')} 
+                          className='bg-rose-50 hover:bg-rose-600 hover:text-white text-rose-600 border border-rose-100/50 px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer'
+                        >
+                          Reject
+                        </button>
+                      </div>
+                    ) : (
+                      <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold tracking-wide ${applicant.status === 'Accepted' ? 'bg-emerald-50 text-emerald-600 border border-emerald-100/50' : 'bg-rose-50 text-rose-600 border border-rose-100/50'}`}>
+                        {applicant.status}
+                      </span>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   ) : <Loading />
